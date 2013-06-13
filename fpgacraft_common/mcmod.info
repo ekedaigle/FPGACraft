@@ -1,0 +1,12 @@
+[{	"modid" : "FPGACraft",
+	"name" : "FPGACraft",
+	"description" : "Become the ultimate nerd",
+	"version" : "1.0.0",
+	"url" : "",
+	"updateUrl" : "",
+	"authorList" : ["eakmeister"],
+	"credits" : "By eakmeister",
+	"screenshots" : [],
+	"parent" : "",
+	"dependencies" : []
+}]
