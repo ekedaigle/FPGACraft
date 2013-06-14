@@ -53,7 +53,25 @@ public class SliceBlock extends Block {
         }
         
         SliceTileEntity sliceTileEntity = (SliceTileEntity)tileEntity;
+        int metadata = world.getBlockMetadata(x, y, z);
+        
         sliceTileEntity.updateConnections();
+        
+        for (int i = 0; i < ForgeDirection.VALID_DIRECTIONS.length; i++) {
+            ForgeDirection direction = ForgeDirection.VALID_DIRECTIONS[i];
+            int power = world.getIndirectPowerLevelTo(x + direction.offsetX, y + direction.offsetY, z + direction.offsetZ, ForgeDirection.OPPOSITES[i]);
+
+            int sliceSide = directionMap[i][metadata];
+            
+            if (sliceSide >= 0) {
+                Port port = sliceTileEntity.slice.sides[sliceSide];
+
+                if (port.sending) {
+                    System.out.println("Setting port " + sliceSide + " state: " + power);
+                    port.state = (power > 0);
+                }
+            }
+        }
     }
     
     /*
@@ -162,10 +180,16 @@ public class SliceBlock extends Block {
         int metadata = blockAccess.getBlockMetadata(x, y, z);
         
         int sliceSide = directionMap[side][metadata];
-        Port p = sliceTileEntity.slice.sides[sliceSide];
         
-        if (p.canReceive && !p.sending && p.connection != null) {
-            return sliceTileEntity.slice.sides[sliceSide].state ? 15 : 0;
+        if (sliceSide >= 0) {
+            Port p = sliceTileEntity.slice.sides[sliceSide];
+        
+            if (p.canReceive && !p.sending && p.connection != null) {
+                return sliceTileEntity.slice.sides[sliceSide].state ? 15 : 0;
+            }
+            else {
+                return 0;
+            }
         }
         else {
             return 0;

@@ -23,6 +23,7 @@ public class Port {
     
     public void update() {
         if (connection != null && sending && connection.state != state) {
+            System.out.println("Updating port");
             connection.state = state;
             connection.updated = true;
         }

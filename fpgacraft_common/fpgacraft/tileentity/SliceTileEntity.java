@@ -41,7 +41,7 @@ public class SliceTileEntity extends TileEntity {
         slice.update();
         
         if (slice.wasUpdated()) {
-            worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, blockType.blockID);
+            getWorldObj().notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, getBlockType().blockID);
         }
     }
     
